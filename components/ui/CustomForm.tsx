@@ -3,7 +3,6 @@
 import React from "react";
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,6 +14,7 @@ import { FormFieldType } from "../forms/PatientForm";
 import Image from "next/image";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import { E164Number } from "libphonenumber-js/core";
 
 interface CustomProps {
   control: Control<any>;
@@ -31,24 +31,14 @@ interface CustomProps {
   renderSkelton?: (field: any) => React.ReactNode;
 }
 const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
-  const {
-    control,
-    fieldType,
-    name,
-    label,
-    iconSrc,
-    iconAlt,
-    children,
-    placeholder,
-  } = props;
-  switch (fieldType) {
+  switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
         <div className="flex rounded  border border-dark-500 bg-dark-400 p-3 items-center">
-          {iconSrc && (
+          {props.iconSrc && (
             <Image
-              src={iconSrc}
-              alt={iconAlt || "Icon"}
+              src={props.iconSrc}
+              alt={props.iconAlt || "Icon"}
               width={24}
               height={24}
               className="ml-1 mr-3 h-6 w-6"
@@ -56,7 +46,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
           )}
           <FormControl>
             <Input
-              placeholder={placeholder}
+              placeholder={props.placeholder}
               {...field}
               className="shad-input border-0"
             />
@@ -66,7 +56,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.PHONE_INPUT:
       return (
         <PhoneInput
-          placeholder={placeholder}
+          placeholder={props.placeholder}
           defaultCountry="EG"
           withCountryCallingCode
           international

@@ -7,8 +7,9 @@ import { Form } from "@/components/ui/form";
 import CustomForm from "../ui/CustomForm";
 import SubmitButton from "../SubmitButton";
 import { UserFormValidation } from "@/lib/Validation";
-import { create } from "domain";
+// import { create } from "domain";
 import { useRouter } from "next/navigation";
+import { createUser } from "@/lib/actions/patient.actions";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -45,15 +46,15 @@ const PatientForm = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     try {
-    //   const userData = {
-    //     name,
-    //     email,
-    //     phone,
-    //   };
-    //   const user = await createUser(userData);
-    //   if (user) {
-    //     router.push(`/patients/${user.$id}/register`);
-    //   }
+      const userData = {
+        name,
+        email,
+        phone,
+      };
+      const user = await createUser(userData);
+      if (user) {
+        router.push(`/patients/${user.$id}/register`);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -68,7 +69,7 @@ const PatientForm = () => {
         <CustomForm
           control={form.control}
           fieldType={FormFieldType.INPUT}
-          name="username"
+          name="name"
           label="Full Name"
           placeholder="john doe"
           iconSrc="/assets/icons/user.svg"
