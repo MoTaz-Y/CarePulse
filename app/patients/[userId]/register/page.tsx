@@ -11,8 +11,8 @@ const Register = async ({ params }: { params: { userId: string } }) => {
     <div className="flex  h-screen max-h-screen">
       {/* TODO: OTP verification | PasskeyModal */}
 
-      <section className="remove-scrollbar container my-auto">
-        <div className="sub-container max-w-[496px]">
+      <section className="remove-scrollbar container">
+        <div className="sub-container max-w-[860px] flex-1 flex-col py-10">
           <Image
             src="/assets/icons/logo-full.svg"
             alt="patient"
@@ -21,15 +21,9 @@ const Register = async ({ params }: { params: { userId: string } }) => {
             className="mb-12 h-10 w-fit"
           />
           <RegisterForm user={user} />
-          <div className="text-14-regular mt-20 flex justify-between">
-            {/* copyright sign */}
-            <p className="text-dark-600 justify-items-end xl:text-left">
-              © 2025 CarePulse. All rights reserved.
-            </p>
-            <Link href="/?admin=true" className="text-green-500">
-              Admin
-            </Link>
-          </div>
+          <p className="copyright py-8">
+            © 2025 CarePulse. All rights reserved.
+          </p>
         </div>
       </section>
       <Image
