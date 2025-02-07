@@ -6,13 +6,18 @@ import { z } from "zod";
 import { Form, FormControl } from "@/components/ui/form";
 import CustomForm from "../ui/CustomForm";
 import SubmitButton from "../SubmitButton";
-import { UserFormValidation } from "@/lib/Validation";
+import { PatientFormValidation } from "@/lib/Validation";
 // import { create } from "domain";
 import { useRouter } from "next/navigation";
-import { createUser } from "@/lib/actions/patient.actions";
+import { registerPatient } from "@/lib/actions/patient.actions";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
-import { Doctors, GenderOptions, IdentificationTypes } from "@/constants";
+import {
+  Doctors,
+  GenderOptions,
+  IdentificationTypes,
+  PatientFormDefaultValues,
+} from "@/constants";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
 import FileUploader from "../FileUploader";
@@ -33,9 +38,10 @@ const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   // 1. Define your form.
-  const form = useForm<z.infer<typeof UserFormValidation>>({
-    resolver: zodResolver(UserFormValidation),
+  const form = useForm<z.infer<typeof PatientFormValidation>>({
+    resolver: zodResolver(PatientFormValidation),
     defaultValues: {
+      ...PatientFormDefaultValues,
       name: "",
       email: "",
       phone: "",
@@ -43,19 +49,54 @@ const RegisterForm = ({ user }: { user: User }) => {
   });
 
   // 2. Define a submit handler.
-  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
+  const onSubmit = async (values: z.infer<typeof PatientFormValidation>) => {
     setIsLoading(true);
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    console.log("hi there");
+    console.log(values);
+    let formData;
+    if (
+      values.identificationDocument &&
+      values.identificationDocument.length > 0
+    ) {
+      const blobFile = new Blob([values.identificationDocument[0]], {
+        type: values.identificationDocument[0].type,
+      });
+      formData = new FormData();
+      formData.append("blobFile", blobFile);
+      formData.append("fileName", values.identificationDocument[0].name);
+    }
     try {
-      const userData = {
+      const patientData = {
+        userId: user.$id,
         name: values.name,
         email: values.email,
         phone: values.phone,
+        birthDate: new Date(values.birthDate),
+        gender: values.gender,
+        address: values.address,
+        occupation: values.occupation,
+        emergencyContactName: values.emergencyContactName,
+        emergencyContactNumber: values.emergencyContactNumber,
+        primaryPhysician: values.primaryPhysician,
+        insuranceProvider: values.insuranceProvider,
+        insurancePolicyNumber: values.insurancePolicyNumber,
+        allergies: values.allergies,
+        currentMedication: values.currentMedication,
+        familyMedicalHistory: values.familyMedicalHistory,
+        pastMedicalHistory: values.pastMedicalHistory,
+        identificationType: values.identificationType,
+        identificationNumber: values.identificationNumber,
+        identificationDocument: values.identificationDocument
+          ? formData
+          : undefined,
+        privacyConsent: values.privacyConsent,
+        treatmentConsent: values.treatmentConsent,
+        disclosureConsent: values.disclosureConsent,
       };
-      const user = await createUser(userData);
-      if (user) {
-        router.push(`/patients/${user.$id}/register`);
+
+      const patient = await registerPatient(patientData);
+      if (patient) {
+        router.push(`/patients/${user.$id}/new-appointment`);
       }
     } catch (error) {
       console.log(error);
@@ -223,7 +264,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           <CustomForm
             control={form.control}
             fieldType={FormFieldType.TEXTAREA}
-            name="currentMedications"
+            name="currentMedication"
             label="Current Medications (if any)"
             placeholder="Aspirin, Ibuprofen 200mg, etc."
           />
@@ -294,7 +335,7 @@ const RegisterForm = ({ user }: { user: User }) => {
         <CustomForm
           control={form.control}
           fieldType={FormFieldType.CHECKBOX}
-          name="closureConsent"
+          name="disclosureConsent"
           label="I consent to disclosure of my information"
         />
         <CustomForm
