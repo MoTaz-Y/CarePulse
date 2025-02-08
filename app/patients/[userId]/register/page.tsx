@@ -8,8 +8,6 @@ const Register = async ({ params }: { params: { userId: string } }) => {
   const user = await getUser(userId);
   return (
     <div className="flex  h-screen max-h-screen">
-      {/* TODO: OTP verification | PasskeyModal */}
-
       <section className="remove-scrollbar container">
         <div className="sub-container max-w-[860px] flex-1 flex-col py-10">
           <Image

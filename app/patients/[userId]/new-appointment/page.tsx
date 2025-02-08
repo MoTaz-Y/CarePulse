@@ -4,8 +4,11 @@ import { getPatient } from "@/lib/actions/patient.actions";
 import Image from "next/image";
 
 export default async function NewAppointment({
-  params: { userId },
-}: SearchParamProps) {
+  params,
+}: {
+  params: { userId: string };
+}) {
+  const { userId } = await params;
   const patient = await getPatient(userId);
   return (
     <div className="flex  h-screen max-h-screen">

@@ -6,10 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Success = async ({
-  params: { userId },
-  searchParams,
-}: SearchParamProps) => {
+const Success = async (
+  { params }: { params: { userId: string } },
+  { searchParams }: SearchParamProps
+) => {
+  const { userId } = await params;
   const appointmentId = (searchParams?.appointmentId as string) || "";
   const appointment = await getAppointment(appointmentId);
   const doctor = Doctors.find(
