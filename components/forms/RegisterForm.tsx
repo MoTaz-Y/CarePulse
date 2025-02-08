@@ -21,18 +21,7 @@ import {
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
 import FileUploader from "../FileUploader";
-
-export enum FormFieldType {
-  INPUT = "input",
-  CHECKBOX = "checkbox",
-  RADIO = "radio",
-  SELECT = "select",
-  TEXTAREA = "textarea",
-  FILE = "file",
-  PHONE_INPUT = "phone_input",
-  DATE_PICKER = "date_picker",
-  SKELETON = "skeleton",
-}
+import { FormFieldType } from "./PatientForm";
 
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();

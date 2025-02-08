@@ -79,3 +79,16 @@ export const registerPatient = async ({
     console.log(error, "erorr of conflicting");
   }
 };
+
+export const getPatient = async (userId: string) => {
+  try {
+    const patients = await database.listDocuments(
+      "679a4aa100346d2f91d5", // process.env.DATABASE_ID!,
+      "679a4ae30025ac870f7e", // process.env.PATIENT_COLLECTION_ID!,
+      [Query.equal("userId", userId)]
+    );
+    return parseStringify(patients.documents[0]);
+  } catch (error) {
+    console.log(error);
+  }
+};
