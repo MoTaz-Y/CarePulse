@@ -4,6 +4,7 @@ import { ID, Query } from "node-appwrite";
 import { database } from "../appwrite.cofig";
 import { parseStringify } from "../utils";
 import { Appointment } from "@/types/appwrite.types";
+import { revalidatePath } from "next/cache";
 
 export const createAppointment = async (
   appointment: CreateAppointmentParams
@@ -83,6 +84,41 @@ export const getRecentAppointmentList = async () => {
       documents: appointments.documents,
     };
     return parseStringify(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateAppointment = async ({
+  appointmentId,
+  userId,
+  appointment,
+  type,
+}: UpdateAppointmentParams) => {
+  try {
+    const newAppointment = await database.updateDocument(
+      "679a4aa100346d2f91d5", // process.env.DATABASE_ID!,
+      "679a4b7300260ff0258f", // process.env.APPOINTMENT_COLLECTION_ID!,
+      appointmentId,
+      // {
+      //   $set: {
+      //     userId: userId,
+      //     patient: patientId,
+      //     status: status as Status,
+      //     primaryPhysician: values.primaryPhysician,
+      //     schedule: new Date(values.schedule),
+      //     reason: values.reason!,
+      //     note: values.note,
+      //   },
+      // }
+      appointment
+    );
+    if (!newAppointment) {
+      throw new Error("Appointment not found");
+    }
+    //TODO: send SMS notification
+    revalidatePath(`/admin`);
+    return parseStringify(newAppointment);
   } catch (error) {
     console.log(error);
   }
