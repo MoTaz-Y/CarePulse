@@ -1,18 +1,19 @@
-"use server";
+'use server';
 
-import { ID, Query } from "node-appwrite";
-import { database } from "../appwrite.cofig";
-import { parseStringify } from "../utils";
-import { Appointment } from "@/types/appwrite.types";
-import { revalidatePath } from "next/cache";
+import { ID, Query } from 'node-appwrite';
+import { database } from '../appwrite.cofig';
+import { parseStringify } from '../utils';
+import { Appointment } from '@/types/appwrite.types';
+import { revalidatePath } from 'next/cache';
+// import { formatDateTime } from '../utils';
 
 export const createAppointment = async (
   appointment: CreateAppointmentParams
 ) => {
   try {
     const newAppointment = await database.createDocument(
-      "679a4aa100346d2f91d5", // process.env.DATABASE_ID!,
-      "679a4b7300260ff0258f", // process.env.APPOINTMENT_COLLECTION_ID!,
+      '679a4aa100346d2f91d5', // process.env.DATABASE_ID!,
+      '679a4b7300260ff0258f', // process.env.APPOINTMENT_COLLECTION_ID!,
       ID.unique(),
       // {
       //   identificationDocumentId: file?.$id ? file.$id : null,
@@ -32,8 +33,8 @@ export const createAppointment = async (
 export const getAppointment = async (appointmentId: string) => {
   try {
     const appointment = await database.getDocument(
-      "679a4aa100346d2f91d5", // process.env.DATABASE_ID!,
-      "679a4b7300260ff0258f", // process.env.APPOINTMENT_COLLECTION_ID!,
+      '679a4aa100346d2f91d5', // process.env.DATABASE_ID!,
+      '679a4b7300260ff0258f', // process.env.APPOINTMENT_COLLECTION_ID!,
       appointmentId
     );
     return parseStringify(appointment);
@@ -45,8 +46,8 @@ export const getAppointment = async (appointmentId: string) => {
 export const getRecentAppointmentList = async () => {
   try {
     const appointments = await database.listDocuments(
-      "679a4aa100346d2f91d5", // process.env.DATABASE_ID!,
-      "679a4b7300260ff0258f", // process.env.APPOINTMENT_COLLECTION_ID!,
+      '679a4aa100346d2f91d5', // process.env.DATABASE_ID!,
+      '679a4b7300260ff0258f', // process.env.APPOINTMENT_COLLECTION_ID!,
       // {
       //   limit: 10,
       //   order: "asc",
@@ -62,13 +63,13 @@ export const getRecentAppointmentList = async () => {
     const counts = (appointments.documents as Appointment[]).reduce(
       (acc, appointment) => {
         switch (appointment.status) {
-          case "scheduled":
+          case 'scheduled':
             acc.scheduleCount += 1;
             break;
-          case "pending":
+          case 'pending':
             acc.pendingCount += 1;
             break;
-          case "cancelled":
+          case 'cancelled':
             acc.completedCount += 1;
             break;
           default:
@@ -91,14 +92,14 @@ export const getRecentAppointmentList = async () => {
 
 export const updateAppointment = async ({
   appointmentId,
-  userId,
+  // userId,
   appointment,
-  type,
-}: UpdateAppointmentParams) => {
+}: // type,
+UpdateAppointmentParams) => {
   try {
     const newAppointment = await database.updateDocument(
-      "679a4aa100346d2f91d5", // process.env.DATABASE_ID!,
-      "679a4b7300260ff0258f", // process.env.APPOINTMENT_COLLECTION_ID!,
+      '679a4aa100346d2f91d5', // process.env.DATABASE_ID!,
+      '679a4b7300260ff0258f', // process.env.APPOINTMENT_COLLECTION_ID!,
       appointmentId,
       // {
       //   $set: {
@@ -114,12 +115,36 @@ export const updateAppointment = async ({
       appointment
     );
     if (!newAppointment) {
-      throw new Error("Appointment not found");
+      throw new Error('Appointment not found');
     }
     //TODO: send SMS notification
+    // const smsMessage = `Greetings from CarePulse. ${
+    //   type === "schedule"
+    //     ? `Your appointment is confirmed for ${
+    //         formatDateTime(appointment.schedule!, timeZone).dateTime
+    //       } with Dr. ${appointment.primaryPhysician}`
+    //     : `We regret to inform that your appointment for ${
+    //         formatDateTime(appointment.schedule!, timeZone).dateTime
+    //       } is cancelled. Reason:  ${appointment.cancellationReason}`
+    // }.`;
+    // await sendSMSNotification(userId, smsMessage);
     revalidatePath(`/admin`);
     return parseStringify(newAppointment);
   } catch (error) {
     console.log(error);
   }
 };
+
+// export const sendSMSNotification = async (userId: string, content: string) => {
+//   try {
+//     const message = await database.createSms(
+//       ID.unique(),
+//       content,
+//       [],
+//       [userId]
+//     );
+//     return parseStringify(message);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
