@@ -29,7 +29,7 @@ const AppointmentForm = ({
   type: 'create' | 'cancel' | 'schedule';
   userId: string;
   patientId: string;
-  appointment: Appointment;
+  appointment?: Appointment;
   setOpen?: (open: boolean) => void;
 }) => {
   const router = useRouter();
@@ -85,23 +85,25 @@ const AppointmentForm = ({
           );
         }
       } else {
-        const appointToUpdate = {
-          userId: userId,
-          appointmentId: appointment.$id,
-          appointment: {
-            primaryPhysician: values?.primaryPhysician,
-            schedule: new Date(values?.schedule),
-            status: status as Status,
-            cancellationReason: values?.cancellationReason,
-          },
-          type,
-        };
-        const updatedAppointment = await updateAppointment(appointToUpdate);
-        if (updatedAppointment) {
-          if (setOpen) {
-            setOpen(false);
+        if (appointment) {
+          const appointToUpdate = {
+            userId: userId,
+            appointmentId: appointment.$id,
+            appointment: {
+              primaryPhysician: values?.primaryPhysician,
+              schedule: new Date(values?.schedule),
+              status: status as Status,
+              cancellationReason: values?.cancellationReason,
+            },
+            type,
+          };
+          const updatedAppointment = await updateAppointment(appointToUpdate);
+          if (updatedAppointment) {
+            if (setOpen) {
+              setOpen(false);
+            }
+            form.reset();
           }
-          form.reset();
         }
       }
     } catch (error) {

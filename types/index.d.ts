@@ -1,7 +1,12 @@
 //* eslint-disable no-unused-vars */
 
 declare type SearchParamProps = {
-  params: Promise<{ [key: string]: string }>;
+  params: Promise<
+    { [key: string]: string },
+    {
+      [userId: string]: string;
+    }
+  >;
   searchParams: Promise<
     { [key: string]: string | string[] | undefined },
     { [admin: string]: string | undefined }
