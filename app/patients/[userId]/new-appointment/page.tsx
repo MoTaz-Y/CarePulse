@@ -4,11 +4,10 @@ import { getPatient } from '@/lib/actions/patient.actions';
 import Image from 'next/image';
 import * as Sentry from '@sentry/nextjs';
 
-export default async function NewAppointment({
-  params,
-}: {
+interface SuccessPageProps {
   params: { userId: string };
-}) {
+}
+export default async function NewAppointment({ params }: SuccessPageProps) {
   const { userId } = params;
   const patient = await getPatient(userId);
   Sentry.metrics.set('user_view_new-appointment', patient.name);
