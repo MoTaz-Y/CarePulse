@@ -17,7 +17,7 @@ const Success = async ({
 }) => {
   console.log('hey there calm down');
   console.log(params, 'osdjfjdasfjadfkjk');
-  const { userId } = await params;
+  const { userId } = params;
   const appointmentId = (searchParams?.appointmentId as string) || '';
   const appointment = await getAppointment(appointmentId);
   const doctor = Doctors.find(
