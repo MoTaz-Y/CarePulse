@@ -1,16 +1,11 @@
 //* eslint-disable no-unused-vars */
 
-// صفحة فيها searchParams بس (زي app/page.tsx)
-export type SearchPageProps = {
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
-
 // صفحة فيها params + searchParams (زي app/patients/[userId]/...)
 export type PageProps<
   T extends Record<string, string> = Record<string, string>
 > = {
   params: T;
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: Record<string, string | string[] | undefined>;
 };
 declare type Gender = 'Male' | 'Female' | 'Other';
 declare type Status = 'pending' | 'scheduled' | 'cancelled';

@@ -3,9 +3,10 @@ import PatientForm from '@/components/forms/PatientForm';
 import PassKeyModal from '@/components/ui/PassKeyModal';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SearchPageProps } from '@/types';
+import { PageProps } from '@/types';
 
-export default function Home({ searchParams }: SearchPageProps) {
+type SuccessPageProps = PageProps<{ userId: string }>;
+export default function Home({ searchParams }: SuccessPageProps) {
   const isAdmin = searchParams?.admin === 'true';
   return (
     <div className='flex  h-screen max-h-screen'>
