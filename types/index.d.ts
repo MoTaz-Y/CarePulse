@@ -1,5 +1,6 @@
 //* eslint-disable no-unused-vars */
 
+// صفحة فيها searchParams بس (زي app/page.tsx)
 export type SearchPageProps = {
   searchParams?: { [key: string]: string | string[] | undefined };
 };
