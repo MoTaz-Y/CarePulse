@@ -7,12 +7,12 @@ import Link from 'next/link';
 import React from 'react';
 import * as Sentry from '@sentry/nextjs';
 import { getUser } from '@/lib/actions/patient.actions';
+import { PageProps } from '@/types';
 
-interface SuccessPageProps {
-  params: { userId: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-const Success = async ({ params, searchParams }: SuccessPageProps) => {
+const Success = async ({
+  params,
+  searchParams,
+}: PageProps<{ userId: string }>) => {
   const { userId } = params;
   const appointmentId = (searchParams?.appointmentId as string) || '';
   const appointment = await getAppointment(appointmentId);
