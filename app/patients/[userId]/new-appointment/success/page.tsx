@@ -8,13 +8,11 @@ import React from 'react';
 import * as Sentry from '@sentry/nextjs';
 import { getUser } from '@/lib/actions/patient.actions';
 
-const Success = async ({
-  params,
-  searchParams,
-}: {
+interface SuccessPageProps {
   params: { userId: string };
   searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+}
+const Success = async ({ params, searchParams }: SuccessPageProps) => {
   console.log('hey there calm down');
   console.log(params, 'osdjfjdasfjadfkjk');
   const { userId } = params;
