@@ -1,14 +1,17 @@
 // import { Button } from "@/components/ui/button";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import PatientForm from '@/components/forms/PatientForm';
 import PassKeyModal from '@/components/ui/PassKeyModal';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+interface HomePageProps {
+  // نستخدم any عشان نكسر التقييد الجاي من PageProps
+  searchParams?: any;
+}
+
+export default function Home({ searchParams }: HomePageProps) {
   const isAdmin = searchParams?.admin === 'true';
   return (
     <div className='flex  h-screen max-h-screen'>

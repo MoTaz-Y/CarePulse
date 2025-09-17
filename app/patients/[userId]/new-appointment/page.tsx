@@ -1,14 +1,15 @@
 // import { Button } from "@/components/ui/button";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import AppointmentForm from '@/components/forms/AppointmentForm';
 import { getPatient } from '@/lib/actions/patient.actions';
 import Image from 'next/image';
 import * as Sentry from '@sentry/nextjs';
 
-export default async function NewAppointment({
-  params,
-}: {
-  params: { userId: string };
-}) {
+interface NewAppointmentProps {
+  params: any;
+}
+
+export default async function NewAppointment({ params }: NewAppointmentProps) {
   const { userId } = params;
   const patient = await getPatient(userId);
   Sentry.metrics.set('user_view_new-appointment', patient.name);

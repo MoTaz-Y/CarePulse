@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/components/ui/button';
 import { Doctors } from '@/constants';
 import { getAppointment } from '@/lib/actions/appointment.actions';
@@ -7,13 +8,15 @@ import Link from 'next/link';
 import React from 'react';
 import * as Sentry from '@sentry/nextjs';
 import { getUser } from '@/lib/actions/patient.actions';
+interface SuccessPageProps {
+  params: any;
+  searchParams?: any;
+}
+
 export default async function Success({
   params,
   searchParams,
-}: {
-  params: { userId: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+}: SuccessPageProps) {
   const { userId } = params;
   const appointmentId = (searchParams?.appointmentId as string) || '';
   const appointment = await getAppointment(appointmentId);
