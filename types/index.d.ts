@@ -1,12 +1,12 @@
 //* eslint-disable no-unused-vars */
 
 // صفحة فيها params + searchParams (زي app/patients/[userId]/...)
-export type PageProps<
-  T extends Record<string, string> = Record<string, string>
-> = {
-  params?: T; // خليتها optional
-  searchParams?: Record<string, string | string[] | undefined>;
-};
+// export type PageProps<
+//   T extends Record<string, string> = Record<string, string>
+// > = {
+//   params?: T; // خليتها optional
+//   searchParams?: Record<string, string | string[] | undefined>;
+// };
 declare type Gender = 'Male' | 'Female' | 'Other';
 declare type Status = 'pending' | 'scheduled' | 'cancelled';
 
