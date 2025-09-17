@@ -4,11 +4,11 @@ import PassKeyModal from '@/components/ui/PassKeyModal';
 import Image from 'next/image';
 import Link from 'next/link';
 
-interface HomePageProps {
+export default function Home({
+  searchParams,
+}: {
   searchParams?: { [key: string]: string | string[] | undefined };
-}
-
-export default function Home({ searchParams }: HomePageProps) {
+}) {
   const isAdmin = searchParams?.admin === 'true';
   return (
     <div className='flex  h-screen max-h-screen'>
