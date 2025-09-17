@@ -4,7 +4,7 @@
 export type PageProps<
   T extends Record<string, string> = Record<string, string>
 > = {
-  params: T;
+  params?: T; // خليتها optional
   searchParams?: Record<string, string | string[] | undefined>;
 };
 declare type Gender = 'Male' | 'Female' | 'Other';

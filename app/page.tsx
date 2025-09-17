@@ -3,9 +3,10 @@ import PatientForm from '@/components/forms/PatientForm';
 import PassKeyModal from '@/components/ui/PassKeyModal';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PageProps } from '@/types';
 
-type HomePageProps = PageProps;
+interface HomePageProps {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
 
 export default function Home({ searchParams }: HomePageProps) {
   const isAdmin = searchParams?.admin === 'true';
