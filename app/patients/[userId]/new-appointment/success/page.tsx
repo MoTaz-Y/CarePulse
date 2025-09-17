@@ -13,8 +13,6 @@ interface SuccessPageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 const Success = async ({ params, searchParams }: SuccessPageProps) => {
-  console.log('hey there calm down');
-  console.log(params, 'osdjfjdasfjadfkjk');
   const { userId } = params;
   const appointmentId = (searchParams?.appointmentId as string) || '';
   const appointment = await getAppointment(appointmentId);

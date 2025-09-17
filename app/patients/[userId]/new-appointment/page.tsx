@@ -7,9 +7,9 @@ import * as Sentry from '@sentry/nextjs';
 export default async function NewAppointment({
   params,
 }: {
-  params: Promise<{ userId: string }>;
+  params: { userId: string };
 }) {
-  const { userId } = await params;
+  const { userId } = params;
   const patient = await getPatient(userId);
   Sentry.metrics.set('user_view_new-appointment', patient.name);
 
