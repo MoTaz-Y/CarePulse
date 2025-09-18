@@ -11,8 +11,9 @@ interface HomePageProps {
   searchParams?: any;
 }
 
-export default function Home({ searchParams }: HomePageProps) {
-  const isAdmin = searchParams?.admin === 'true';
+export default async function Home({ searchParams }: HomePageProps) {
+  const resolvedSearchParams = await searchParams; // Await searchParams
+  const isAdmin = resolvedSearchParams?.admin === 'true';
   return (
     <div className='flex  h-screen max-h-screen'>
       {isAdmin && <PassKeyModal />}
@@ -50,5 +51,3 @@ export default function Home({ searchParams }: HomePageProps) {
     </div>
   );
 }
-
-export default Home;

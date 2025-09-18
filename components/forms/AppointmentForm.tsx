@@ -1,9 +1,5 @@
 'use client';
-<<<<<<< HEAD
 import React, { useState, Dispatch, SetStateAction } from 'react';
-=======
-import React, { useState } from 'react';
->>>>>>> 6993e1455868ecf5da3e6df46fc2bfad4fd24c8c
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -34,11 +30,7 @@ const AppointmentForm = ({
   userId: string;
   patientId: string;
   appointment?: Appointment;
-<<<<<<< HEAD
   setOpen?: Dispatch<SetStateAction<boolean>>;
-=======
-  setOpen?: (open: boolean) => void;
->>>>>>> 6993e1455868ecf5da3e6df46fc2bfad4fd24c8c
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -93,7 +85,6 @@ const AppointmentForm = ({
           );
         }
       } else {
-<<<<<<< HEAD
         const appointToUpdate = {
           userId: userId,
           appointmentId: appointment?.$id as string,
@@ -111,27 +102,6 @@ const AppointmentForm = ({
             setOpen(false);
           }
           form.reset();
-=======
-        if (appointment) {
-          const appointToUpdate = {
-            userId: userId,
-            appointmentId: appointment.$id,
-            appointment: {
-              primaryPhysician: values?.primaryPhysician,
-              schedule: new Date(values?.schedule),
-              status: status as Status,
-              cancellationReason: values?.cancellationReason,
-            },
-            type,
-          };
-          const updatedAppointment = await updateAppointment(appointToUpdate);
-          if (updatedAppointment) {
-            if (setOpen) {
-              setOpen(false);
-            }
-            form.reset();
-          }
->>>>>>> 6993e1455868ecf5da3e6df46fc2bfad4fd24c8c
         }
       }
     } catch (error) {
