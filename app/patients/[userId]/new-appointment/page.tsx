@@ -3,9 +3,13 @@ import AppointmentForm from '@/components/forms/AppointmentForm';
 import { getPatient } from '@/lib/actions/patient.actions';
 import Image from 'next/image';
 
-const Appointment = async ({ params }: { params: { userId: string } }) => {
-  const awaitedParams = await params; // Explicitly await params
-  const { userId } = awaitedParams;
+interface AppointmentPageProps {
+  params: { userId: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+
+const Appointment = async ({ params }: AppointmentPageProps) => {
+  const { userId } = params;
   const patient = await getPatient(userId);
 
   return (
