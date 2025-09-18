@@ -4,7 +4,8 @@ import { getPatient } from '@/lib/actions/patient.actions';
 import Image from 'next/image';
 
 const Appointment = async ({ params }: { params: { userId: string } }) => {
-  const { userId } = params;
+  const awaitedParams = await params; // Explicitly await params
+  const { userId } = awaitedParams;
   const patient = await getPatient(userId);
 
   return (
